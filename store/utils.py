@@ -4,27 +4,19 @@ import string
 import random
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
-from django.http import HttpResponseRedirect
 
 
-# def get_customer(request):
-#     if request.user.is_authenticated:
-#         customer = Customer.objects.get(user=request.user)
-#         return customer
-#     else:
-#         # get device cookie if it's a guest
-#         # TODO: if the person enters th site for the first time, it demands a cookie while it hasn't been created
-#         try:
-#             device = request.COOKIES['device']
-#         except KeyError:
-#             device = "".join(random.choices(string.ascii_lowercase + string.digits, k=20))
-#             # response = HttpResponseRedirect('/')
-#             # code = "".join(random.choices(string.ascii_lowercase + string.digits, k=20))
-#             # response.set_cookie('device', code)
-#             # return response
-#
-#         customer, created = Customer.objects.get_or_create(device_code=device)
-#         return customer
+def get_customer(request):
+    if request.user.is_authenticated:
+        customer = Customer.objects.get(user=request.user)
+        return customer
+    else:
+        # get device cookie if it's a guest
+        # TODO: if the person enters th site for the first time, it demands a cookie while it hasn't been created
+        device = request.COOKIES['device']
+
+        customer, created = Customer.objects.get_or_create(device_code=device)
+        return customer
 
 
 # create reference code for the orders that took place (payment_charge_post)
