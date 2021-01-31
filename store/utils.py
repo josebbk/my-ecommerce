@@ -9,14 +9,11 @@ from django.core.exceptions import ObjectDoesNotExist
 def get_customer(request):
     if request.user.is_authenticated:
         customer = Customer.objects.get(user=request.user)
-        return customer
     else:
         # get device cookie if it's a guest
-        # TODO: if the person enters th site for the first time, it demands a cookie while it hasn't been created
         device = request.COOKIES['device']
-
         customer, created = Customer.objects.get_or_create(device_code=device)
-        return customer
+    return customer
 
 
 # create reference code for the orders that took place (payment_charge_post)
