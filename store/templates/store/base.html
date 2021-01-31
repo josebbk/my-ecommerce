@@ -1,0 +1,247 @@
+{% load static %}
+{#{% load cart_template_tags %}#}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>{% block title %}Ecommerce Website{% endblock title %}</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+    <!-- Bootstrap core CSS -->
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <link href="{% static 'css/mdb.min.css' %}" rel="stylesheet">
+    <!-- Your custom styles (optional) -->
+    <link href="{% static 'css/style.min.css' %}" rel="stylesheet">
+    <link rel="icon"
+          href="https://www.360webdesigns.com/wp-content/uploads/2016/07/Services_ECommerce_v2-01.png"/>
+    {% block extra_link %}{% endblock extra_link %}
+    <style type="text/css">
+        html,
+        body,
+        header,
+        .carousel {
+            height: 60vh;
+        }
+
+        @media (max-width: 740px) {
+
+            html,
+            body,
+            header,
+            .carousel {
+                height: 100vh;
+            }
+        }
+
+        @media (min-width: 800px) and (max-width: 850px) {
+
+            html,
+            body,
+            header,
+            .carousel {
+                height: 100vh;
+            }
+        }
+
+    </style>
+</head>
+
+<body {% block body-class %}{% endblock body-class %}>
+
+<!-- Navbar -->
+<nav class="navbar fixed-top navbar-expand-lg navbar-light white scrolling-navbar">
+    <div class="container">
+
+        <!-- Brand -->
+        <a class="navbar-brand waves-effect" href="{% url 'home-page' %}">
+            <strong class="blue-text">Ecommerce Site</strong>
+        </a>
+
+        <!-- Collapse -->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Links -->
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+            <!-- Left -->
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link waves-effect" href="{% url 'home-page' %}">Home
+                        <span class="sr-only">(current)</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link waves-effect"
+                       href="{% url 'checkout-page' %}">Checkout</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link waves-effect"
+                       href="{% url 'refund-page' %}">Request Refund</a>
+                </li>
+                {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link waves-effect"
+                           href="{% url 'logout' %}">Logout</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link waves-effect"
+                           href="{% url 'register' %}">Register</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link waves-effect"
+                           href="{% url 'login' %}">Login</a>
+                    </li>
+                {% endif %}
+            </ul>
+
+            <!-- Right -->
+            <ul class="navbar-nav nav-flex-icons">
+                {% if user.is_authenticated %}
+                    <li class="nav-item dropdown">
+                        <a href="{% url 'profile-page' %}" class="nav-link waves-effect">
+                            <i class="fas fa-user"></i>
+                            <span class="clearfix d-none d-sm-inline-block"> Profile </span>
+                        </a>
+                    </li>
+                {% endif %}
+                <li class="nav-item">
+                    <a href="{% url 'cart-page' %}" class="nav-link waves-effect">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="clearfix d-none d-sm-inline-block"> Cart </span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="https://www.instagram.com/josebbk/" class="nav-link waves-effect" target="_blank">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="https://t.me/josebbk" class="nav-link waves-effect" target="_blank">
+                        <i class="fab fa-telegram"></i>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="https://github.com/josebbk"
+                       class="nav-link border border-light rounded waves-effect"
+                       target="_blank">
+                        <i class="fab fa-github mr-2"></i>Josebbk GitHub
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+
+    </div>
+</nav>
+<!-- Navbar -->
+
+<!-- Messages -->
+<div class="mt-5 pt-4">
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+</div>
+{% block main %}{% endblock main %}
+
+<!--Footer-->
+<footer class="page-footer text-center font-small mt-4 wow fadeIn">
+
+    <hr class="my-4">
+
+    <!-- Social icons -->
+    <div class="pb-4">
+        <a href="https://www.instagram.com/josebbk/" target="_blank">
+            <i class="fab fa-instagram mr-3"></i>
+        </a>
+
+        <a href="https://t.me/Josebbk" target="_blank">
+            <i class="fab fa-telegram mr-3"></i>
+        </a>
+
+        <a href="https://www.youtube.com/channel/UC3TjA5mBrMykkcxfpmGeQmQ" target="_blank">
+            <i class="fab fa-youtube mr-3"></i>
+        </a>
+
+        <a href="https://github.com/josebbk" target="_blank">
+            <i class="fab fa-github mr-3"></i>
+        </a>
+    </div>
+    <!-- Social icons -->
+
+    <!--Copyright-->
+    <div class="footer-copyright py-3">
+        © 2020 Copyright:
+        <a href="#"> Josebbk </a>
+    </div>
+    <!--/.Copyright-->
+
+</footer>
+<!--/.Footer-->
+
+<!-- SCRIPTS -->
+<!-- JQuery -->
+<script type="text/javascript" src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+<!-- Bootstrap tooltips -->
+<script type="text/javascript" src="{% static 'js/popper.min.js' %}"></script>
+<!-- Bootstrap core JavaScript -->
+<script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+<!-- MDB core JavaScript -->
+<script type="text/javascript" src="{% static 'js/mdb.min.js' %}"></script>
+<!-- Initializations -->
+<script type="text/javascript">
+    // Animations initialization
+    new WOW().init();
+</script>
+<script>
+
+    // get cookie from it's name
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    // create a random unique code
+    function uuidv4() {
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+            var r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
+            return v.toString(16);
+        });
+    }
+
+    let device = getCookie('device');
+
+    if ((device === null) || (device === undefined)) {
+        device = uuidv4()
+    }
+    /// apply cookie to all pages
+    document.cookie = 'device=' + device + ";domain=;path=/"
+
+</script>
+{% block extra_scripts %}{% endblock %}
+</body>
+
+</html>

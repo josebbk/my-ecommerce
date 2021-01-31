@@ -1,0 +1,117 @@
+{% extends 'store/base.html' %}
+{% load static %}
+
+{% block body-class %}class="grey lighten-3"{% endblock body-class %}
+
+{% block main %}
+    <!--Main layout-->
+    <main>
+        <div class="container wow fadeIn">
+
+            <!-- Heading -->
+            <h2 class="my-5 h2 text-center">Checkout form</h2>
+
+            <!--Grid row-->
+            <div class="row">
+
+                <!--Grid column-->
+                <div class="col-md-12 mb-4">
+
+                    <!--Card-->
+                    <div class="card">
+
+                        <!--Card content-->
+                        <form class="card-body" method="POST">
+                            {% csrf_token %}
+
+                            <div class="list-group">
+                                {% if address_exists %}
+                                    {% for address in form.address.field.queryset %}
+                                        <div class="list-group-item list-group-item-action">
+                                            <div class="d-flex w-100 justify-content-between">
+                                                <div class="custom-control custom-radio">
+                                                    <h5 class="mb-1">
+                                                        <input id="{{ address.address }}{{ address.name }}"
+                                                               name="address"
+                                                               type="radio"
+                                                               class="custom-control-input"
+                                                               value="{{ address.id }}"
+                                                               checked required>
+                                                        <label class="custom-control-label"
+                                                               for="{{ address.address }}{{ address.name }}">
+                                                            {{ address.country.name }}, {{ address.state_province }}, {{ address.city }}
+                                                        </label>
+                                                    </h5>
+                                                </div>
+                                                <p>
+                                                    <a href="{% url 'address-delete-page' address.id %}">
+                                                        <small class="text-muted">
+                                                            Delete <i class="fas fa-trash"></i>
+                                                        </small>
+                                                    </a>
+                                                    <a href="{% url 'address-update-page' address.id %}">
+                                                        <small class="text-muted ml-2">
+                                                            Edit <i class="fas fa-edit"></i>
+                                                        </small>
+                                                    </a>
+                                                </p>
+                                            </div>
+                                            <p class="mb-1">
+                                                {{ address.address|truncatechars:'100' }}
+                                            </p>
+                                            <small class="text-muted">
+                                                <i class="fas fa-envelope"> {{ address.zip }}</i> -
+                                                <i class="fas fa-phone"> {{ address.phone_number }}</i> -
+                                                <i class="fas fa-male"> {{ address.name }}</i>
+                                            </small>
+                                        </div>
+                                        <br>
+                                    {% endfor %}
+                                    <p>
+                                        <a href="{% url 'address-create-page' %}">
+                                            New Address <i class="fas fa-plus-square"></i>
+                                        </a>
+                                    </p>
+                                {% else %}
+                                    <h5>
+                                        <a href="{% url 'address-create-page' %}">
+                                            Please First Create An Address <i class="fas fa-plus-square"></i>
+                                        </a>
+                                    </h5>
+                                {% endif %}
+                            </div>
+
+                            <hr>
+
+                            <div class="d-block my-3">
+                                {% for value, name in form.fields.payment_option.choices %}
+                                    <div class="custom-control custom-radio">
+                                        <input id="{{ name }}" name="payment_option" value="{{ value }}"
+                                               type="radio"
+                                               class="custom-control-input"
+                                               checked required>
+                                        <label class="custom-control-label" for="{{ name }}">{{ name }}</label>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            <hr class="mb-4">
+                            <button class="btn btn-primary btn-lg btn-block" type="submit">Continue to checkout
+                            </button>
+
+                        </form>
+
+                    </div>
+                    <!--/.Card-->
+
+                </div>
+                <!--Grid column-->
+
+                {% include 'store/order_snippet.html' %}
+
+            </div>
+            <!--Grid row-->
+
+        </div>
+    </main>
+    <!--Main layout-->
+{% endblock main %}

@@ -1,0 +1,110 @@
+{% extends 'store/base.html' %}
+
+{% block main %}
+    <main class="mt pt">
+        <div class="container dark-grey-text mt-5">
+
+            <div class="col-lg-9">
+                <div id="order-infos">
+                    <div class="box">
+                        <div class="row">
+                            <div class="col-9  fs_lg heading_color">
+                                <h5>Order "{{ order.ref_code }}", Created at {{ order.ordered_date }}</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row float-left">
+                    <div class="col-lg-6 col-md-6">
+                        <article id="delivery-address" class="pad_10 general_border mb-4">
+                            <div class="heading_color"><h5><span
+                                    class="badge badge-info">Sent to Address Detail :</span></h5></div>
+                            <address>
+                                <p>Name : {{ order.shipping_address.name }}</p>
+                                <p>Country : {{ order.shipping_address.country.name }}</p>
+                                <p>State or Province : {{ order.shipping_address.state_province }}</p>
+                                <p>City : {{ order.shipping_address.city }}</p>
+                                <p>Address : {{ order.shipping_address.address }}</p>
+                                <p>Zip : {{ order.shipping_address.zip }}</p>
+                                <p>Phone Number : {{ order.shipping_address.phone_number }}</p>
+                            </address>
+                        </article>
+                    </div>
+                </div>
+
+                <div class="box hidden-sm-down">
+                    <table id="order-products" class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                            <th>Total Price</th>
+                        </tr>
+                        </thead>
+                        {% for order_item in order.items.all %}
+                            <tbody>
+                            <tr>
+                                <td>
+                                    <strong>
+                                        <a>
+                                            {{ order_item.item.title }}
+                                        </a>
+                                    </strong><br>
+                                </td>
+                                <td>
+                                    {{ order_item.quantity }}
+                                </td>
+                                <td class="text-right price">${{ order_item.item.price }}</td>
+                                <td class="text-right price">${{ order_item.get_final_price }}</td>
+                            </tr>
+                            </tbody>
+                        {% endfor %}
+                        <tfoot>
+                        <tr class="text-right line-total">
+                            <td colspan="3">Total</td>
+                            <td class="price">${{ order.get_total }}</td>
+                        </tr>
+                        </tfoot>
+                    </table>
+                </div>
+
+                <div class="box">
+                    <table class="table  table-bordered hidden-sm-down">
+                        <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Carrier</th>
+                            <th>Weight</th>
+                            <th>Carrier Price</th>
+                            <th>Ref Code</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>{{ order.ordered_date.date }}</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>{{ order.ref_code }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="clearfix my_account_page_footer mt-3 mb-3">
+                        <a href="{% url 'profile-page' %}" class="fl float-left">
+                            <i class="fto-left fto_mar_lr2"></i>
+                            Return To Profile
+                        </a>
+                        <a href="{% url 'home-page' %}" class="fl float-right">
+                            <i class="fto-left fto_mar_lr2"></i>
+                            HomePage
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+{% endblock main %}

@@ -1,0 +1,27 @@
+{% extends 'store/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block main %}
+    <main class="mt-1 pt-1">
+        <div class="container wow fadeIn">
+            <h2 class="my-5 h2 text-center">Welcome {{ request.user }}</h2>
+            <ul class="list-group">
+                <li class="list-group-item list-group-item-warning">
+                    <a href="{% url 'profile-edit-page' %}">Profile Info</a>
+                </li>
+                <li class="list-group-item list-group-item-warning">
+                    <a href="{% url 'addresses-page' %}">Addresses</a>
+                </li>
+                <li class="list-group-item list-group-item-warning">
+                    <a href="{% url 'orders-page' %}">Orders Info</a>
+                </li>
+                <li class="list-group-item list-group-item-warning">
+                    <a href="">Coupon Codes</a>
+                </li>
+                <li class="list-group-item list-group-item-danger">
+                    <a href="{% url 'change-password-page' %}">Change Password</a>
+                </li>
+            </ul>
+        </div>
+    </main>
+{% endblock main %}

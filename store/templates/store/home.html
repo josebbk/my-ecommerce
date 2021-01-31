@@ -1,0 +1,159 @@
+{% extends 'store/base.html' %}
+{% load static %}
+
+{% block title %}Ecommerce Website{% endblock title %}
+{% block main %}
+    <!--Main layout-->
+    <main class="mt-12 pt-4">
+        <div class="container">
+
+            <!--Navbar-->
+            <nav class="navbar navbar-expand-lg navbar-dark mdb-color lighten-3 mt-3 mb-5">
+
+                <!-- Navbar brand -->
+                {#                <span class="navbar-brand">Categories:</span>#}
+
+                <!-- Collapse button -->
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav"
+                        aria-controls="basicExampleNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Collapsible content -->
+                <div class="collapse navbar-collapse" id="basicExampleNav">
+
+                    <!-- Links -->
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item">
+                            <form class="nav-link" method="GET">
+                                <label><i class="fas fa-vector-square"></i>Category </label>
+                                {{ myFilter.form.category }}
+                                <label><i class="fas fa-tags"></i>Tags </label>
+                                {{ myFilter.form.attribute }}
+                                <label><i class="fas fa-search"></i>Search Bar </label>
+                                {{ myFilter.form.title }}
+                                <button type="submit" class="btn btn-primary btn-sm">
+                                    <i class="fas fa-search"></i>Search
+                                </button>
+                            </form>
+                        </li>
+                    </ul>
+                    <!-- Links -->
+                </div>
+                <!-- Collapsible content -->
+
+            </nav>
+            <!--/.Navbar-->
+
+            <!--Section: Products v.3-->
+            <section class="text-center mb-4">
+
+                <!--Grid row-->
+                <div class="row wow fadeIn">
+
+                    <!--Grid column-->
+                    {% for product in object_list %}
+                        <div class="col-lg-3 col-md-6 mb-4">
+                            <!--Card-->
+                            <div class="card">
+
+                                <!--Card image-->
+                                <div class="view overlay">
+                                    <img src="{{ product.image.url }}"
+                                         class="card-img-top"
+                                         alt="">
+                                    <a href="{{ product.get_absolute_url }}">
+                                        <div class="mask rgba-white-slight"></div>
+                                    </a>
+                                </div>
+                                <!--Card image-->
+
+                                <!--Card content-->
+                                <div class="card-body text-center">
+                                    <!--Category & Title-->
+                                    <a href="" class="grey-text">
+                                        <h5>{{ product.get_category_display }}</h5>
+                                    </a>
+                                    <h5>
+                                        <strong>
+                                            <a href="{{ product.get_absolute_url }}"
+                                               class="dark-grey-text">{{ product.title }}
+                                                {% if product.attribute %}
+                                                    <span class="badge badge-pill {{ product.get_label_display }}-color">
+                                                    {{ product.get_attribute_display }}</span>
+                                                {% endif %}
+                                            </a>
+                                        </strong>
+                                    </h5>
+
+                                    <h4 class="font-weight-bold blue-text">
+                                        {% if product.discount_price %}
+                                            <strong>{{ product.discount_price }}$</strong>
+                                        {% else %}
+                                            <strong>{{ product.price }}$</strong>
+                                        {% endif %}
+                                    </h4>
+
+                                </div>
+                                <!--Card content-->
+
+                            </div>
+                            <!--Card-->
+                        </div>
+                        <!--Fourth column-->
+                    {% endfor %}
+
+                </div>
+                <!--Grid row-->
+
+            </section>
+            <!--Section: Products v.3-->
+
+            <!--Pagination-->
+            {% if is_paginated %}
+                <nav class="d-flex justify-content-center wow fadeIn">
+                    <ul class="pagination pg-blue">
+
+                        <!--Arrow left-->
+                        {% if page_obj.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.previous_page_number }}"
+                                   aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                    <span class="sr-only">Previous</span>
+                                </a>
+                            </li>
+                        {% endif %}
+
+                        {% for num in page_obj.paginator.page_range %}
+                            {% if page_obj.number == num %}
+                                <li class="page-item active">
+                                    <a class="page-link" href="?page={{ num }}">{{ num }}
+                                        <span class="sr-only">(current)</span>
+                                    </a>
+                                </li>
+                            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+
+                        {% if page_obj.has_next %}
+                            <li class="page-item">
+                                <a id="num-page" class="page-link" href="?page={{ page_obj.next_page_number }}"
+                                   aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                    <span class="sr-only">Next</span>
+                                </a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            {% endif %}
+            <!--Pagination-->
+
+        </div>
+    </main>
+    <!--Main layout-->
+{% endblock main %}

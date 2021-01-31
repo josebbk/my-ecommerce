@@ -1,0 +1,58 @@
+{% extends 'store/base.html' %}
+
+{% block main %}
+    <main class="mt-4 pt-4">
+        <div class="container-2 container dark-grey-text">
+            {% for ad in address %}
+                <div class="container-2-box">
+                    <h3>{{ ad.customer }}</h3>
+                    <p>{{ ad.name }}</p>
+                    <p>{{ ad.address }}</p>
+                    <p>{{ ad.country.name }}</p>
+                    <p>{{ ad.state_province }}</p>
+                    <p>{{ ad.city }}</p>
+                    <p>{{ ad.zip }}</p>
+                    <p>{{ ad.phone_number }}</p>
+                    <p><a href="{% url 'address-update-page' ad.id %}">Edit Address</a>
+                        <a href="{% url 'address-delete-page' ad.id %}" class="float-right">Delete Address</a></p>
+                </div>
+            {% empty %}
+                <h1><span class="badge bg-danger"><b>Your Don't Have A Saved Address</b></span></h1>
+            {% endfor %}
+        </div>
+        <br>
+        <div class=" container dark-grey-text">
+            <div class="form-group">
+                <div class="col-sm-10 col-sm-offset-2">
+                    <a type="submit" class="btn btn-primary"
+                    href="{% url 'address-create-page' %}">
+                        Create New Address
+                    </a>
+                    <a class="btn btn-danger" type="submit"
+                       href="{% url 'checkout-page' %}">Checkout Page</a>
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock main %}
+
+{% block extra_link %}
+    <style>
+        @media (min-width: 468px) {
+
+            .container-2 {
+                display: flex;
+                justify-content: space-between;
+            }
+        }
+
+        .container-2 div {
+            border: 1px #ccc solid;
+            padding: 10px;
+        }
+
+        .container-2-box {
+            flex-basis: 27%;
+        }
+    </style>
+{% endblock extra_link %}

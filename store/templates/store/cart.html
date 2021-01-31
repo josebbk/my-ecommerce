@@ -1,0 +1,78 @@
+{% extends 'store/base.html' %}
+
+{% block main %}
+    <!--Main layout-->
+    <main class="mt-5 pt-4">
+        <div class="container dark-grey-text mt-5">
+            <table class="table">
+                <thead>
+                <tr class="table-primary">
+                    <th scope="col">#</th>
+                    <th scope="col">Product</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Total Price</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for order_item in order.items.all %}
+                    <tr class="table-default">
+                        <th scope="row">{{ forloop.counter }}</th>
+                        <td>{{ order_item.item.title }}</td>
+                        <td>
+                            {% if order_item.item.discount_price != 0 %}
+                                ${{ order_item.item.discount_price }}
+                                <span class="badge bg-primary">With Discount</span>
+                            {% else %}
+                                ${{ order_item.item.price }}
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="{% url 'add-to-cart' order_item.item.slug %}">
+                                <i class="fas fa-arrow-up"></i>
+                            </a>
+                            {{ order_item.quantity }}
+                            <a href="{% url 'remove-single-item-from-cart' order_item.item.slug %}">
+                                <i class="fas fa-arrow-down"></i>
+                            </a>
+                        </td>
+                        <td>
+                            {% if order_item.item.discount_price != 0 %}
+                                ${{ order_item.get_total_discount_price }}
+                                <span class="badge bg-primary">Saved Amount: ${{ order_item.amount_saved }}</span>
+                            {% else %}
+                                ${{ order_item.get_total_price }}
+                            {% endif %}
+                            <a href="{% url 'remove-from-cart' order_item.item.slug %}">
+                                <i class="fas fa-trash float-right"></i>
+                            </a>
+                        </td>
+
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="4"><h1><span class="badge bg-warning"><b>Your Cart Is Empty</b></span></h1></td>
+                        <td><a class="btn btn-success float-right" href="{% url 'home-page' %}">Continue
+                            Shopping</a></td>
+                    </tr>
+                {% endfor %}
+                {% if order.get_total %}
+                    <tr>
+                        <td colspan="4"><h3><span class="badge bg-success"><b>Checkout Price</b></span></h3></td>
+                        <td><h4><span class="badge bg-danger">${{ order.get_total }}</span></h4></td>
+                    </tr>
+                    <tr>
+                        <td colspan="5">
+                            <a class="btn btn-warning float-right ml-2" href="{% url 'checkout-page' %}">Checkout</a>
+                            <a class="btn btn-success float-right" href="{% url 'home-page' %}">Continue
+                                Shopping</a>
+                            {% include 'store/order_snippet.html' %}
+                        </td>
+                    </tr>
+                {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </main>
+    <!--Main layout-->
+{% endblock main %}
