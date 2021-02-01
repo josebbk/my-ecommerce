@@ -25,7 +25,7 @@ SECRET_KEY = 'r4**%zsh4yo=3z@#g_-px43e^7#)f-_!^ktcl@2=(bf!jox$i5'
 # SECRET_KEY = os.environ['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ["josebbk-ecommerce.herokuapp.com", "127.0.0.1"]
 
